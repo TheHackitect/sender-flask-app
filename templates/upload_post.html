@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thehackitect | Upload Files</title>
+    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
+    <link href="static/css/editor.css" type="text/css" rel="stylesheet"/>
+    <link rel="shortcut icon" href= "{{ url_for('static',filename='images/favicon.png')}}" >
+    <script src="static/js/editor.js"></script>
+
+    <link rel="stylesheet" href="static/css/upload_post.css">
+    <style>
+        .srouce{
+            text-align: center;
+            color: #ffffff;
+            padding: 10px;
+        }
+    </style>
+    <script>
+        function previewFile() {
+            var preview = document.querySelector("img")
+            var file = document.querySelector("input[type=file]").files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function() {
+                preview.src = reader.result;
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="form-container">
+            <div class="form-body">
+                <h2 class="title">Upload New  Files</h2>
+                {% if uploaded_files != "None" %}
+                    {% for folder_id in uploaded_files %}
+                    <div class="srouce"><a title="Upload {{folder}}" href="/folder/{{folder_id}}">FOLDER {{folder_id}}</a> -- <a href="/delete/{{folder_id}}">Delete</a></div>
+                    {% endfor %}
+                {% endif %}
+                <form class="the-form" method="POST" enctype="multipart/form-data">
+                    <input type="file" onchange="previewFile()" name="files", multiple="true"/>
+                    <img src="" height="50" width="50" alt="preview">
+                    <table>
+                        <th colspan="2">
+                            <input type="submit" class="btns" value="send">
+                            <input type="reset" class="btnr">
+                        </th>
+                    </table>
+                </form>
+
+            </div><!-- FORM BODY-->
+        </div><!-- FORM CONTAINER -->
+    </div>
+
+</body>
+</html>
